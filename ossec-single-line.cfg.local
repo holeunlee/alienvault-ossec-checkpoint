@@ -1,0 +1,624 @@
+# Alienvault plugin
+# Author: holeun.lee@gmail.com
+# Last modification: 2016-27-01 12:00:00
+#
+# checkpoint - firewall-1 r77
+# used https://regex101.com/ for regex debugging.
+# syntax for a variable which should be put into a field like this:
+# (?P<variablename>[based on what characters? like: \d \w \- \. ]+)
+# \d = numbers
+# \w = words
+# you know the drill, regex101.com has a few most used things.
+
+[DEFAULT]
+plugin_id=7333
+
+[config]
+type=detector
+enable=yes
+pre_match="^AV\s-\sAlert\s-\s\"\d+\"\s-->\sRID:\s\"(?P<key>\d+)\".*"
+source=log
+location=/var/ossec/logs/alerts/alerts.log
+
+create_file=false
+
+process=ossec-remoted
+start=yes   ; launch plugin process when agent starts
+stop=yes     ; shutdown plugin process when agent stops
+restart=no  ; restart plugin process after each interval
+restart_interval=_CFG(watchdog,restart_interval) ; interval between each restart
+startup=/etc/init.d/ossec start
+shutdown=/etc/init.d/ossec stop
+
+[translation]
+733734=7333
+733735=7333
+733736=7333
+733737=7333
+733744=7333
+733745=7333
+733746=7333
+733747=7333
+733748=7333
+733749=7333
+733754=7333
+733764=7333
+733765=7333
+733766=7333
+733767=7333
+733768=7333
+733769=7333
+733770=7333
+733771=7333
+733772=7333
+733774=7333
+733775=7333
+733776=7333
+733784=7333
+733785=7333
+733786=7333
+733794=7333
+733795=7333
+733804=7333
+733805=7333
+733806=7333
+
+##########################################################################################################
+### AUDIT: SmartDashboard, SmartViewTracker, SmartViewMonitor, SecurityManagementServer, SystemMonitor ###
+##########################################################################################################
+
+#################################
+### CHECKPOINT SMARTDASHBOARD ###
+#################################
+
+[9000 - Checkpoint SmartDashboard: User Failed Login Unknown Administrator]
+event_type=event
+precheck="Checkpoint SmartDashboard: User Failed Login Unknown Administrator"
+regexp="^AV\s+\-\sAlert\s+\-\s\"(?P<date>\d+)\"\s\-\->\sRID\:\s\"(?P<rule_id>\d+)\"\;\s+RL\:\s+\"(?P<rule_level>\d+)\"\;\s+RG\:\s+\"(?P<rule_group>[^"]*)\"\;\s+RC\:\s+"(?P<rule_comment>[^"]*)\";\sUSER:\s+\"[^"]+\";\sSRCIP:\s\"[^"]*\"\;\sHOSTNAME:\s+\"\((?P<hostname>[^)]+)\)\s[0-9\.]+->[^"]*\";\sLOCATION\:\s\"[^"]+\"\;\s+EVENT\:\s+\"\[INIT\]time=\d+-\d+-\d+\s\d+:\d+:\d+\|product=[A-Za-z\s]+\|orig=(?P<dst_ip>\S+)\|Operation=[A-Za-z\s]+\|Administrator=(?P<administrator>[A-Za-z\s\.]+)\|Machine=(?P<src_ip>[A-Za-z\s\-\0-9\.]+)\|Subject=[A-Za-z\s]+\|Audit Status=[A-Za-z\s]+\|Additional Info=(?P<log>[^[]*)\[END\]\"\;"
+date={normalize_date($date)}
+plugin_id={translate($rule_id)}
+plugin_sid={$rule_id}
+device={$hostname}
+src_ip={$src_ip}
+dst_ip={$dst_ip}
+username={$administrator}
+userdata1="plugin rule 9000"
+userdata2={$log}
+
+[9001 - Checkpoint SmartDashboard: User Failed Login Wrong Password]
+event_type=event
+precheck="Checkpoint SmartDashboard: User Failed Login Wrong Password"
+regexp="^AV\s+\-\sAlert\s+\-\s\"(?P<date>\d+)\"\s\-\->\sRID\:\s\"(?P<rule_id>\d+)\"\;\s+RL\:\s+\"(?P<rule_level>\d+)\"\;\s+RG\:\s+\"(?P<rule_group>[^"]*)\"\;\s+RC\:\s+"(?P<rule_comment>[^"]*)\";\sUSER:\s+\"[^"]+\";\sSRCIP:\s\"[^"]*\"\;\sHOSTNAME:\s+\"\((?P<hostname>[^)]+)\)\s[0-9\.]+->[^"]*\";\sLOCATION\:\s\"[^"]+\"\;\s+EVENT\:\s+\"\[INIT\]time=\d+-\d+-\d+\s\d+:\d+:\d+\|product=[A-Za-z\s]+\|orig=(?P<dst_ip>\S+)\|Operation=[A-Za-z\s]+\|Administrator=(?P<administrator>[A-Za-z\s\.]+)\|Machine=(?P<src_ip>[A-Za-z\s\-\0-9\.]+)\|Subject=[A-Za-z\s]+\|Audit Status=[A-Za-z\s]+\|Additional Info=(?P<log>[^[]*)\[END\]\"\;"
+date={normalize_date($date)}
+plugin_id={translate($rule_id)}
+plugin_sid={$rule_id}
+device={$hostname}
+src_ip={$src_ip}
+dst_ip={$dst_ip}
+username={$administrator}
+userdata1="plugin rule 9001"
+userdata2={$log}
+
+[9002 - Checkpoint SmartDashboard: User Logged Out]
+event_type=event
+precheck="Checkpoint SmartDashboard: User Logged Out"
+regexp="^AV\s+\-\sAlert\s+\-\s\"(?P<date>\d+)\"\s\-\->\sRID\:\s\"(?P<rule_id>\d+)\"\;\s+RL\:\s+\"(?P<rule_level>\d+)\"\;\s+RG\:\s+\"(?P<rule_group>[^"]*)\"\;\s+RC\:\s+"(?P<rule_comment>[^"]*)\";\sUSER:\s+\"[^"]+\";\sSRCIP:\s\"[^"]*\"\;\sHOSTNAME:\s+\"\((?P<hostname>[^)]+)\)\s[0-9\.]+->[^"]*\";\sLOCATION\:\s\"[^"]+\"\;\s+EVENT\:\s+\"\[INIT\]time=\d+-\d+-\d+\s\d+:\d+:\d+\|product=[A-Za-z\s]+\|orig=(?P<dst_ip>\S+)\|Operation=[A-Za-z\s]+\|Administrator=(?P<administrator>[A-Za-z\s\.]+)\|Machine=(?P<src_ip>[A-Za-z\s\-\0-9\.]+)\|Subject=[A-Za-z\s]+\[END\]\"\;"
+date={normalize_date($date)}
+plugin_id={translate($rule_id)}
+plugin_sid={$rule_id}
+device={$hostname}
+src_ip={$src_ip}
+dst_ip={$dst_ip}
+username={$administrator}
+userdata1="plugin rule 9002"
+userdata2={$log}
+
+[9003 - Checkpoint SmartDashboard: User Logged in]
+event_type=event
+precheck="Checkpoint SmartDashboard: User Logged In"
+regexp="^AV\s+\-\sAlert\s+\-\s\"(?P<date>\d+)\"\s\-\->\sRID\:\s\"(?P<rule_id>\d+)\"\;\s+RL\:\s+\"(?P<rule_level>\d+)\"\;\s+RG\:\s+\"(?P<rule_group>[^"]*)\"\;\s+RC\:\s+"(?P<rule_comment>[^"]*)\";\sUSER:\s+\"[^"]+\";\sSRCIP:\s\"[^"]*\"\;\sHOSTNAME:\s+\"\((?P<hostname>[^)]+)\)\s[0-9\.]+->[^"]*\";\sLOCATION\:\s\"[^"]+\"\;\s+EVENT\:\s+\"\[INIT\]time=\d+-\d+-\d+\s\d+:\d+:\d+\|product=[A-Za-z\s]+\|orig=(?P<dst_ip>\S+)\|Operation=[A-Za-z\s]+\|Administrator=(?P<administrator>[A-Za-z\s\.]+)\|Machine=(?P<src_ip>[A-Za-z\s\-\0-9\.]+)\|Subject=[A-Za-z\s]+\|Additional Info=(?P<log>[^[]*)\[END\]\"\;"
+date={normalize_date($date)}
+plugin_id={translate($rule_id)}
+plugin_sid={$rule_id}
+device={$hostname}
+src_ip={$src_ip}
+dst_ip={$dst_ip}
+username={$administrator}
+userdata1="plugin rule 9003"
+userdata2={$log}
+
+[9004 - Checkpoint SmartDashboard: Object Modified]
+event_type=event
+precheck="Checkpoint SmartDashboard: Object Modified"
+regexp="^AV\s+\-\sAlert\s+\-\s\"(?P<date>\d+)\"\s\-\->\sRID\:\s\"(?P<rule_id>\d+)\"\;\s+RL\:\s+\"(?P<rule_level>\d+)\"\;\s+RG\:\s+\"(?P<rule_group>[^"]*)\"\;\s+RC\:\s+"(?P<rule_comment>[^"]*)\";\sUSER:\s+\"[^"]+\";\sSRCIP:\s\"[^"]*\"\;\sHOSTNAME:\s+\"\((?P<hostname>[^)]+)\)\s[0-9\.]+->[^"]*\";\sLOCATION\:\s\"[^"]+\"\;\s+EVENT\:\s+\"\[INIT\]time=\d+-\d+-\d+\s\d+:\d+:\d+\|product=[A-Za-z\s]+\|orig=(?P<dst_ip>\S+)\|Operation=[A-Za-z\s]+\|Administrator=(?P<administrator>[A-Za-z\s\.]+)\|Machine=(?P<src_ip>[A-Za-z\s\-\0-9\.]+)\|Subject=[A-Za-z\s]+\|ObjectName=(?P<ObjectName>[\w\d\_\-]+)\|ObjectType=(?P<ObjectType>[a-zA-Z\_\-]+)\|ObjectTable=(?P<ObjectTable>[a-zA-Z\-\_]+)\|FieldsChanges=(?P<FieldsChanges>[^[]*)\[END\]\"\;"
+date={normalize_date($date)}
+plugin_id={translate($rule_id)}
+plugin_sid={$rule_id}
+device={$hostname}
+src_ip={$src_ip}
+dst_ip={$dst_ip}
+username={$administrator}
+userdata1="plugin rule 9004"
+userdata2={$ObjectName}
+userdata3={$ObjectType}
+userdata4={$ObjectTable}
+userdata5={$FieldsChanges}
+
+[9005 - Checkpoint SmartDashboard: Object Created]
+event_type=event
+precheck="Checkpoint SmartDashboard: Object Created"
+regexp="^AV\s+\-\sAlert\s+\-\s\"(?P<date>\d+)\"\s\-\->\sRID\:\s\"(?P<rule_id>\d+)\"\;\s+RL\:\s+\"(?P<rule_level>\d+)\"\;\s+RG\:\s+\"(?P<rule_group>[^"]*)\"\;\s+RC\:\s+"(?P<rule_comment>[^"]*)\";\sUSER:\s+\"[^"]+\";\sSRCIP:\s\"[^"]*\"\;\sHOSTNAME:\s+\"\((?P<hostname>[^)]+)\)\s[0-9\.]+->[^"]*\";\sLOCATION\:\s\"[^"]+\"\;\s+EVENT\:\s+\"\[INIT\]time=\d+-\d+-\d+\s\d+:\d+:\d+\|product=[A-Za-z\s]+\|orig=(?P<dst_ip>\S+)\|Operation=[A-Za-z\s]+\|Administrator=(?P<administrator>[A-Za-z\s\.]+)\|Machine=(?P<src_ip>[A-Za-z\s\-\0-9\.]+)\|Subject=[A-Za-z\s]+\|ObjectName=(?P<ObjectName>[\w\d\-\_]+)\|ObjectType=(?P<ObjectType>[A-Za-z0-9\-\_]+)\|ObjectTable=(?P<ObjectTable>[A-Za-z0-9\-\_]+)\|FieldsChanges=(?P<FieldsChanges>[^[]*)\[END]\"\;"
+date={normalize_date($date)}
+plugin_id={translate($rule_id)}
+plugin_sid={$rule_id}
+device={$hostname}
+src_ip={$src_ip}
+dst_ip={$dst_ip}
+username={$administrator}
+userdata1={$ObjectName}
+userdata2={$ObjectType}
+userdata3={$ObjectTable}
+userdata4={$FieldChanges}
+userdata5="plugin rule 9005"
+
+[9006 - Checkpoint SmartDashboard: Object Deleted]
+event_type=event
+precheck="Checkpoint SmartDashboard: Object Deleted"
+regexp="^AV\s+\-\sAlert\s+\-\s\"(?P<date>\d+)\"\s\-\->\sRID\:\s\"(?P<rule_id>\d+)\"\;\s+RL\:\s+\"(?P<rule_level>\d+)\"\;\s+RG\:\s+\"(?P<rule_group>[^"]*)\"\;\s+RC\:\s+"(?P<rule_comment>[^"]*)\";\sUSER:\s+\"[^"]+\";\sSRCIP:\s\"[^"]*\"\;\sHOSTNAME:\s+\"\((?P<hostname>[^)]+)\)\s[0-9\.]+->[^"]*\";\sLOCATION\:\s\"[^"]+\"\;\s+EVENT\:\s+\"\[INIT\]time=\d+-\d+-\d+\s\d+:\d+:\d+\|product=[A-Za-z\s]+\|orig=(?P<dst_ip>\S+)\|Operation=[A-Za-z\s]+\|Administrator=(?P<administrator>[A-Za-z\s\.]+)\|Machine=(?P<src_ip>[A-Za-z\s\-\0-9\.]+)\|Subject=[A-Za-z\s]+\|ObjectName=(?P<ObjectName>[A-Za-z0-9\-\_]+)\|ObjectType=(?P<ObjectType>[A-Za-z0-9\-\_]+)\|ObjectTable=(?P<ObjectTable>[A-Za-z0-9\-\_]+)\[END]\"\;"
+date={normalize_date($date)}
+plugin_id={translate($rule_id)}
+plugin_sid={$rule_id}
+device={$hostname}
+src_ip={$src_ip}
+dst_ip={$dst_ip}
+username={$administrator}
+userdata1="plugin rule 9006"
+userdata2={$ObjectName}
+userdata3={$ObjectType}
+userdata4={$ObjectTable}
+userdata5={$FieldsChanges}
+
+[9007 - Checkpoint SmartDashboard: Policy Installed]
+event_type=event
+precheck="Checkpoint SmartDashboard: Policy Installed"
+regexp="^AV\s+\-\sAlert\s+\-\s\"(?P<date>\d+)\"\s\-\->\sRID\:\s\"(?P<rule_id>\d+)\"\;\s+RL\:\s+\"(?P<rule_level>\d+)\"\;\s+RG\:\s+\"(?P<rule_group>[^"]*)\"\;\s+RC\:\s+"(?P<rule_comment>[^"]*)\";\sUSER:\s+\"[^"]+\";\sSRCIP:\s\"[^"]*\"\;\sHOSTNAME:\s+\"\((?P<hostname>[^)]+)\)\s[0-9\.]+->[^"]*\";\sLOCATION\:\s\"[^"]+\"\;\s+EVENT\:\s+\"\[INIT\]time=\d+-\d+-\d+\s\d+:\d+:\d+\|product=[A-Za-z\s]+\|orig=(?P<dst_ip>\S+)\|Operation=[A-Za-z\s]+\|Administrator=(?P<administrator>[A-Za-z\s\.]+)\|Machine=(?P<src_ip>[A-Za-z\s\-\0-9\.]+)\|Subject=[A-Za-z\s]+\|ObjectName=(?P<ObjectName>[a-zA-Z\-\_\d]+)\|ObjectType=(?P<ObjectType>[a-zA-Z\_\-]+)\|ObjectTable=(?P<ObjectTable>[a-zA-Z\-\_]+)\|Audit Status=[\w]+\|Additional Info=(?P<log>[^[]*)\[END\]\"\;"
+date={normalize_date($date)}
+plugin_id={translate($rule_id)}
+plugin_sid={$rule_id}
+device={$hostname}
+src_ip={$src_ip}
+dst_ip={$dst_ip}
+username={$administrator}
+userdata1="plugin rule 9007"
+userdata2={$ObjectName}
+userdata3={$ObjectType}
+userdata4={$ObjectTable}
+userdata5={$FieldsChanges}
+userdata6={$log}
+
+[9008 - Checkpoint SmartDashboard: File Retrieved]
+event_type=event
+precheck="Checkpoint SmartDashboard: File Retrieved"
+regexp="^AV\s+\-\sAlert\s+\-\s\"(?P<date>\d+)\"\s\-\->\sRID\:\s\"(?P<rule_id>\d+)\"\;\s+RL\:\s+\"(?P<rule_level>\d+)\"\;\s+RG\:\s+\"(?P<rule_group>[^"]*)\"\;\s+RC\:\s+"(?P<rule_comment>[^"]*)\";\sUSER:\s+\"[^"]+\";\sSRCIP:\s\"[^"]*\"\;\sHOSTNAME:\s+\"\((?P<hostname>[^)]+)\)\s[0-9\.]+->[^"]*\";\sLOCATION\:\s\"[^"]+\"\;\s+EVENT\:\s+\"\[INIT\]time=\d+-\d+-\d+\s\d+:\d+:\d+\|product=[A-Za-z\s]+\|orig=(?P<dst_ip>\S+)\|Operation=[A-Za-z\s]+\|Administrator=(?P<administrator>[A-Za-z\s\.]+)\|Machine=(?P<src_ip>[A-Za-z\s\-\0-9\.]+)\|Subject=[A-Za-z\s]+\|Additional Info=(?P<log>[^[]*)\[END\]\"\;"
+date={normalize_date($date)}
+plugin_id={translate($rule_id)}
+plugin_sid={$rule_id}
+device={$hostname}
+src_ip={$src_ip}
+dst_ip={$dst_ip}
+username={$administrator}
+userdata1="plugin rule 9008"
+userdata2={$ObjectName}
+userdata3={$ObjectType}
+userdata4={$ObjectTable}
+userdata5={$FieldsChanges}
+userdata6={log}
+
+###################################
+### CHECKPOINT SMARTVIEWTRACKER ###
+###################################
+
+[9050 - Checkpoint SmartViewTracker: User Logged Out]
+event_type=event
+precheck="Checkpoint SmartViewTracker: User Logged Out"
+regexp="^AV\s+\-\sAlert\s+\-\s\"(?P<date>\d+)\"\s\-\->\sRID\:\s\"(?P<rule_id>\d+)\"\;\s+RL\:\s+\"(?P<rule_level>\d+)\"\;\s+RG\:\s+\"(?P<rule_group>[^"]*)\"\;\s+RC\:\s+"(?P<rule_comment>[^"]*)\";\sUSER:\s+\"(?P<username>[^"]+)\";\sSRCIP:\s\"(?P<src_ip>[^"]*)\"\;\sHOSTNAME:\s+\"\((?P<hostname>[^)]+)\)\s[0-9\.]+->[^"]*\";\sLOCATION\:\s\"[^"]+\"\;\s+EVENT\:\s+\"\[INIT\]time=\d+-\d+-\d+\s\d+:\d+:\d+\|product=[A-Za-z\s]+\|orig=(?P<dst_ip>\S+)\|Operation=[A-Za-z\s]+\|Administrator=(?P<administrator>[A-Za-z\s\.]+)\|Machine=(?P<src_ip>[A-Za-z\s\-\0-9\.]+)\|Subject=[A-Za-z\s]+\|Additional Info=(?P<log>[^[]*)\[END\]\"\;"
+date={normalize_date($date)}
+plugin_id={translate($rule_id)}
+plugin_sid={$rule_id}
+device={$src_ip}
+src_ip={resolve($src_ip)}
+dst_ip={$dst_ip}
+username={$administrator}
+userdata1="plugin rule 9050"
+userdata2={$log}
+
+[9051 - Checkpoint SmartViewTracker: User Logged In]
+event_type=event
+precheck="Checkpoint SmartViewTracker: User Logged In"
+regexp="^AV\s+\-\sAlert\s+\-\s\"(?P<date>\d+)\"\s\-\->\sRID\:\s\"(?P<rule_id>\d+)\"\;\s+RL\:\s+\"(?P<rule_level>\d+)\"\;\s+RG\:\s+\"(?P<rule_group>[^"]*)\"\;\s+RC\:\s+"(?P<rule_comment>[^"]*)\";\sUSER:\s+\"[^"]+\";\sSRCIP:\s\"[^"]*\"\;\sHOSTNAME:\s+\"\((?P<hostname>[^)]+)\)\s[0-9\.]+->[^"]*\";\sLOCATION\:\s\"[^"]+\"\;\s+EVENT\:\s+\"\[INIT\]time=\d+-\d+-\d+\s\d+:\d+:\d+\|product=[A-Za-z\s]+\|orig=(?P<dst_ip>[\d\.]+)\|Operation=[A-Za-z\s]+\|Administrator=(?P<administrator>[A-Za-z\s\.]+)\|Machine=(?P<src_ip>[A-Za-z\s\-\0-9\.]+)\|Subject=[A-Za-z\s]+\|Additional Info=(?P<log>[^[]*)\[END\]\"\;"
+date={normalize_date($date)}
+plugin_id={translate($rule_id)}
+plugin_sid={$rule_id}
+device={$src_ip}
+src_ip={resolve($src_ip)}
+dst_ip={$dst_ip}
+username={$administrator}
+userdata1="plugin rule 9051"
+userdata2={$log}
+
+[9052 - Checkpoint SmartViewTracker: File Retrieved]
+event_type=event
+precheck="Checkpoint SmartViewTracker: File Retrieved"
+regexp="^AV\s+\-\sAlert\s+\-\s\"(?P<date>\d+)\"\s\-\->\sRID\:\s\"(?P<rule_id>\d+)\"\;\s+RL\:\s+\"(?P<rule_level>\d+)\"\;\s+RG\:\s+\"(?P<rule_group>[^"]*)\"\;\s+RC\:\s+"(?P<rule_comment>[^"]*)\";\sUSER:\s+\"[^"]+\";\sSRCIP:\s\"[^"]*\"\;\sHOSTNAME:\s+\"\((?P<hostname>[^)]+)\)\s[0-9\.]+->[^"]*\";\sLOCATION\:\s\"[^"]+\"\;\s+EVENT\:\s+\"\[INIT\]time=\d+-\d+-\d+\s\d+:\d+:\d+\|product=[A-Za-z\s]+\|orig=(?P<dst_ip>[\d\.]+)\|Operation=[A-Za-z\s]+\|Administrator=(?P<administrator>[A-Za-z\s\.]+)\|Machine=(?P<src_ip>[A-Za-z\s\-\0-9\.]+)\|Subject=[A-Za-z\s]+\|Additional Info=(?P<log>[^[]*)\[END\]\"\;"
+date={normalize_date($date)}
+plugin_id={translate($rule_id)}
+plugin_sid={$rule_id}
+device={$src_ip}
+src_ip={resolve($src_ip)}
+dst_ip={$dst_ip}
+username={$administrator}
+userdata1="plugin rule 9052"
+userdata2={$log}
+
+###################################################
+### CHECKPOINT SMART SECURITY MANAGEMENT SERVER ###
+###################################################
+
+[9100 - Checkpoint Smart Security Management Server: Synchronize Peer]
+event_type=event
+precheck="Checkpoint Smart Security Management Server: Synchronize Peer"
+regexp="^AV\s+\-\sAlert\s+\-\s\"(?P<date>\d+)\"\s\-\->\sRID\:\s\"(?P<rule_id>\d+)\"\;\s+RL\:\s+\"(?P<rule_level>\d+)\"\;\s+RG\:\s+\"(?P<rule_group>[^"]*)\"\;\s+RC\:\s+"(?P<rule_comment>[^"]*)\";\sUSER:\s+\"[^"]+\";\sSRCIP:\s\"[^"]*\"\;\sHOSTNAME:\s+\"\((?P<hostname>[^)]+)\)\s[0-9\.]+->[^"]*\";\sLOCATION\:\s\"[^"]+\"\;\s+EVENT\:\s+\"\[INIT\]time=\d+-\d+-\d+\s\d+:\d+:\d+\|product=[A-Za-z\s]+\|orig=(?P<dst_ip>\S+)\|Operation=[A-Za-z\s]+\|Administrator=(?P<administrator>[A-Za-z\s\.]+)\|Machine=(?P<src_ip>[A-Za-z\s\-\0-9\.]+)\|Subject=[A-Za-z\s]+\|ObjectName=(?P<ObjectName>[a-zA-Z\-\_\d]+)\|Audit Status=[A-Za-z\s]+\|Additional Info=(?P<log>[^[]*)\[END\]\"\;"
+date={normalize_date($date)}
+plugin_id={translate($rule_id)}
+plugin_sid={$rule_id}
+device={$src_ip}
+src_ip={resolve($src_ip)}
+dst_ip={$dst_ip}
+username={$administrator}
+userdata1="plugin rule 9100"
+userdata2={$log}
+
+[9101 - Checkpoint Smart Security Management Server: Detected Multiple Active Servers]
+event_type=event
+precheck="Checkpoint Smart Security Management Server: Detected Multiple Active Server"
+regexp="^AV\s+\-\sAlert\s+\-\s\"(?P<date>\d+)\"\s\-\->\sRID\:\s\"(?P<rule_id>\d+)\"\;\s+RL\:\s+\"(?P<rule_level>\d+)\"\;\s+RG\:\s+\"(?P<rule_group>[^"]*)\"\;\s+RC\:\s+"(?P<rule_comment>[^"]*)\";\sUSER:\s+\"[^"]+\";\sSRCIP:\s\"[^"]*\"\;\sHOSTNAME:\s+\"\((?P<hostname>[^)]+)\)\s[0-9\.]+->[^"]*\";\sLOCATION\:\s\"[^"]+\"\;\s+EVENT\:\s+\"\[INIT\]time=\d+-\d+-\d+\s\d+:\d+:\d+\|product=[A-Za-z\s]+\|orig=(?P<dst_ip>\S+)\|Operation=[A-Za-z\s]+\|Administrator=(?P<administrator>[A-Za-z\s\.]+)\|Machine=(?P<src_ip>[A-Za-z\s\-\0-9\.]+)\|Subject=[A-Za-z\s]+\|ObjectName=(?P<ObjectName>[a-zA-Z\-\_\d]+)\|Audit Status=[A-Za-z\s]+\|Additional Info=(?P<log>[^[]*)\[END\]\"\;"
+date={normalize_date($date)}
+plugin_id={translate($rule_id)}
+plugin_sid={$rule_id}
+device={$src_ip}
+src_ip={resolve($src_ip)}
+dst_ip={$dst_ip}
+username={$administrator}
+userdata1="plugin rule 9101"
+userdata2={$log}
+
+###################################################
+### CHECKPOINT SMART VIEW MONITOR               ###
+###################################################
+
+[9150 - Checkpoint Smart View Monitor: User Logged In]
+event_type=event
+precheck="Checkpoint Smart View Monitor: User Logged In"
+regexp="^AV\s+\-\sAlert\s+\-\s\"(?P<date>\d+)\"\s\-\->\sRID\:\s\"(?P<rule_id>\d+)\"\;\s+RL\:\s+\"(?P<rule_level>\d+)\"\;\s+RG\:\s+\"(?P<rule_group>[^"]*)\"\;\s+RC\:\s+"(?P<rule_comment>[^"]*)\";\sUSER:\s+\"(?P<username>[^"]+)\";\sSRCIP:\s\"[^"]*\"\;\sHOSTNAME:\s+\"\((?P<hostname>[^)]+)\)\s[0-9\.]+->[^"]*\";\sLOCATION\:\s\"[^"]+\"\;\s+EVENT\:\s+\"\[INIT\]time=\d+-\d+-\d+\s\d+:\d+:\d+\|product=[A-Za-z\s]+\|orig=(?P<dst_ip>\S+)\|Operation=[A-Za-z\s]+\|Administrator=(?P<administrator>[A-Za-z\s\.]+)\|Machine=(?P<src_ip>[A-Za-z\s\-\0-9\.]+)\|Subject=[A-Za-z\s]+\|Additional Info=(?P<log>[^[]*)\[END\]\"\;"
+date={normalize_date($date)}
+plugin_id={translate($rule_id)}
+plugin_sid={$rule_id}
+device={$machine}
+src_ip={resolve($src_ip)}
+dst_ip={$dst_ip}
+username={$administrator}
+userdata1="plugin rule 9150"
+userdata2={$log}
+
+[9151 - Checkpoint Smart View Monitor: User Logged Out]
+event_type=event
+precheck="Checkpoint Smart View Monitor: User Logged Out"
+regexp="^AV\s+\-\sAlert\s+\-\s\"(?P<date>\d+)\"\s\-\->\sRID\:\s\"(?P<rule_id>\d+)\"\;\s+RL\:\s+\"(?P<rule_level>\d+)\"\;\s+RG\:\s+\"(?P<rule_group>[^"]*)\"\;\s+RC\:\s+"(?P<rule_comment>[^"]*)\";\sUSER:\s+\"(?P<username>[^"]+)\";\sSRCIP:\s\"[^"]*\"\;\sHOSTNAME:\s+\"\((?P<hostname>[^)]+)\)\s[0-9\.]+->[^"]*\";\sLOCATION\:\s\"[^"]+\"\;\s+EVENT\:\s+\"\[INIT\]time=\d+-\d+-\d+\s\d+:\d+:\d+\|product=[A-Za-z\s]+\|orig=(?P<dst_ip>\S+)\|Operation=[A-Za-z\s]+\|Administrator=(?P<administrator>[A-Za-z\s\.]+)\|Machine=(?P<src_ip>[A-Za-z\s\-\0-9\.]+)\|Subject=[A-Za-z\s]+\[END\]\"\;"
+date={normalize_date($date)}
+plugin_id={translate($rule_id)}
+plugin_sid={$rule_id}
+device={$machine}
+src_ip={resolve($src_ip)}
+dst_ip={$dst_ip}
+username={$administrator}
+userdata1="plugin rule 9151"
+userdata2={$log}
+
+#################################
+### CHECKPOINT SYSTEM MONITOR ###
+#################################
+
+[9200 - Checkpoint Smart View Monitor: Object Modified]
+event_type=event
+precheck="Checkpoint System Monitor: Object Modified"
+regexp="^AV\s+\-\sAlert\s+\-\s\"(?P<date>\d+)\"\s\-\->\sRID\:\s\"(?P<rule_id>\d+)\"\;\s+RL\:\s+\"(?P<rule_level>\d+)\"\;\s+RG\:\s+\"(?P<rule_group>[^"]*)\"\;\s+RC\:\s+"(?P<rule_comment>[^"]*)\";\sUSER:\s+\"[^"]+\";\sSRCIP:\s\"[^"]*\"\;\sHOSTNAME:\s+\"\((?P<hostname>[^)]+)\)\s[0-9\.]+->[^"]*\";\sLOCATION\:\s\"[^"]+\"\;\s+EVENT\:\s+\"\[INIT\]time=\d+-\d+-\d+\s\d+:\d+:\d+\|product=[A-Za-z\s]+\|orig=(?P<dst_ip>\S+)\|Operation=[A-Za-z\s]+\|Administrator=(?P<administrator>[A-Za-z\s\.]+)\|Machine=(?P<src_ip>[A-Za-z\s\-\0-9\.]+)\|Subject=[A-Za-z\s]+\|ObjectName=(?P<ObjectName>[\w\d\-\_]+)\|ObjectType=(?P<ObjectType>[A-Za-z0-9\-\_]+)\|ObjectTable=(?P<ObjectTable>[A-Za-z0-9\-\_]+)\|FieldsChanges=(?P<FieldsChanges>[^[]*)\[END]\"\;"
+date={normalize_date($date)}
+plugin_id={translate($rule_id)}
+plugin_sid={$rule_id}
+device={$hostname}
+src_ip={$src_ip}
+dst_ip={$dst_ip}
+username={$username}
+userdata1="plugin rule 9200"
+userdata2={$ObjectName}
+userdata3={$ObjectType}
+userdata4={$ObjectTable}
+userdata5={$FieldChanges}
+
+[9201 - Checkpoint Smart View Monitor: Object Created]
+event_type=event
+precheck="Checkpoint System Monitor: Object Created"
+regexp="^AV\s+\-\sAlert\s+\-\s\"(?P<date>\d+)\"\s\-\->\sRID\:\s\"(?P<rule_id>\d+)\"\;\s+RL\:\s+\"(?P<rule_level>\d+)\"\;\s+RG\:\s+\"(?P<rule_group>[^"]*)\"\;\s+RC\:\s+"(?P<rule_comment>[^"]*)\";\sUSER:\s+\"[^"]+\";\sSRCIP:\s\"[^"]*\"\;\sHOSTNAME:\s+\"\((?P<hostname>[^)]+)\)\s[0-9\.]+->[^"]*\";\sLOCATION\:\s\"[^"]+\"\;\s+EVENT\:\s+\"\[INIT\]time=\d+-\d+-\d+\s\d+:\d+:\d+\|product=[A-Za-z\s]+\|orig=(?P<dst_ip>\S+)\|Operation=[A-Za-z\s]+\|Administrator=(?P<administrator>[A-Za-z\s\.]+)\|Machine=(?P<src_ip>[A-Za-z\s\-\0-9\.]+)\|Subject=[A-Za-z\s]+\|ObjectName=(?P<ObjectName>[\w\d\-\_]+)\|ObjectType=(?P<ObjectType>[A-Za-z0-9\-\_]+)\|ObjectTable=(?P<ObjectTable>[A-Za-z0-9\-\_]+)\[END]\"\;"
+date={normalize_date($date)}
+plugin_id={translate($rule_id)}
+plugin_sid={$rule_id}
+device={$hostname}
+src_ip={$src_ip}
+dst_ip={$dst_ip}
+username={$username}
+userdata1="plugin rule 9201"
+userdata2={$ObjectName}
+userdata3={$ObjectType}
+userdata4={$ObjectTable}
+userdata5={$FieldChanges}
+
+[9202 - Checkpoint Smart View Monitor: Object Deleted]
+event_type=event
+precheck="Checkpoint System Monitor: Object Deleted"
+regexp="^AV\s+\-\sAlert\s+\-\s\"(?P<date>\d+)\"\s\-\->\sRID\:\s\"(?P<rule_id>\d+)\"\;\s+RL\:\s+\"(?P<rule_level>\d+)\"\;\s+RG\:\s+\"(?P<rule_group>[^"]*)\"\;\s+RC\:\s+"(?P<rule_comment>[^"]*)\";\sUSER:\s+\"[^"]+\";\sSRCIP:\s\"[^"]*\"\;\sHOSTNAME:\s+\"\((?P<hostname>[^)]+)\)\s[0-9\.]+->[^"]*\";\sLOCATION\:\s\"[^"]+\"\;\s+EVENT\:\s+\"\[INIT\]time=\d+-\d+-\d+\s\d+:\d+:\d+\|product=[A-Za-z\s]+\|orig=(?P<dst_ip>\S+)\|Operation=[A-Za-z\s]+\|Administrator=(?P<administrator>[A-Za-z\s\.]+)\|Machine=(?P<src_ip>[A-Za-z\s\-\0-9\.]+)\|Subject=[A-Za-z\s]+\|ObjectName=(?P<ObjectName>[\w\d\-\_]+)\|ObjectType=(?P<ObjectType>[A-Za-z0-9\-\_]+)\|ObjectTable=(?P<ObjectTable>[A-Za-z0-9\-\_]+)\[END]\"\;"
+date={normalize_date($date)}
+plugin_id={translate($rule_id)}
+plugin_sid={$rule_id}
+device={$hostname}
+src_ip={$src_ip}
+dst_ip={$dst_ip}
+username={$username}
+userdata1="plugin rule 9202"
+userdata2={$ObjectName}
+userdata3={$ObjectType}
+userdata4={$ObjectTable}
+userdata5={$FieldChanges}
+
+########################################################################################################
+### FIREWALL: Firewall, SmartDefense, Edge                                                           ###
+########################################################################################################
+
+#############################
+### CHECKPOINT VPN-1 EDGE ###
+#############################
+
+[9250 - Checkpoint VPN-1 Edge Failed to login]
+event_type=event
+precheck="Checkpoint VPN-1 Edge Failed to login"
+regexp="^AV\s+\-\sAlert\s+\-\s\"(?P<date>\d+)\"\s\-\->\sRID\:\s\"(?P<rule_id>\d+)\"\;\s+RL\:\s+\"(?P<rule_level>\d+)\"\;\s+RG\:\s+\"(?P<rule_group>[^"]*)\"\;\s+RC\:\s+"(?P<rule_comment>[^"]*)\";\sUSER:\s+\"(?P<administrator>[^"]+)\";\sSRCIP:\s\"[^"]+\"\;\sHOSTNAME:\s+\"\((?P<hostname>[^)]+)\)\s[0-9\.]+->[^"]*\";\sLOCATION\:\s\"[^"]+\"\;\s+EVENT\:\s+\"\[INIT\]time=(?P<time>[\d\-\s\:]+)\|product=[\s\w\d\&\S]+\|orig=(?P<dst_ip>[\d\.]+)\|Machine=(?P<src_ip>[\d\.]+)\|Audit Status=[\w]+\|Additional Info=(?P<log>[^.*]+)\[END]\"\;"
+date={normalize_date($date)}
+plugin_id={translate($rule_id)}
+plugin_sid={$rule_id}
+device={$machine}
+src_ip={resolve($src_ip)}
+dst_ip={$dst_ip}
+username={$administrator}
+userdata1="plugin rule 9250"
+userdata2={$log}
+userdata3={$hostname}
+userdata4={$rule_comment}
+userdata5={$rule_group}
+
+[9251 - Checkpoint VPN-1 Edge accepted packet]
+event_type=event
+precheck="Checkpoint VPN-1 Edge accepted packet"
+regexp="^AV\s+\-\sAlert\s+\-\s\"(?P<date>\d+)\"\s\-\->\sRID\:\s\"(?P<rule_id>\d+)\"\;\s+RL\:\s+\"(?P<rule_level>\d+)\"\;\s+RG\:\s+\"(?P<rule_group>[^"]*)\"\;\s+RC\:\s+"(?P<rule_comment>[^"]*)\";\sUSER:\s+\"(?P<administrator>[^"]+)\";\sSRCIP:\s\"[^"]*\"\;\sHOSTNAME:\s+\"\((?P<hostname>[^)]+)\)\s[0-9\.]+->[^"]*\";\sLOCATION\:\s\"[^"]+\"\;\s+EVENT\:\s+\"\[INIT\]time=\d+-\d+-\d+\s\d+:\d+:\d+\|product=[\s\w\d\&\S]+\|action=(?P<action>[\w]+)\|orig=(?P<fw>[\d.]+)\|src=(?P<src>[\d.]+)(\|s_port=(?P<src_port>[\d]+)?)?\|dst=(?P<dst>[\d.]+)\|proto=(?P<protocol>[\w\d]+)(?P<VPN>(?P<whit>\|xlatesrc=(?P<xlatesrc>[\d\.]+))?(?P<whet>\|xlatesport=(?P<xlatesport>[\d\.]+))?(?P<what>\|xlatedst=(?P<xlatedst>[\d\.]+))?(?P<whut>\|xlatedport=(?P<xlatedport>[\d\.]+))?)?\[END\]\"\;"
+date={normalize_date($date)}
+plugin_id={translate($rule_id)}
+plugin_sid={$rule_id}
+device={$fw}
+src_ip={$src}
+dst_ip={$dst}
+src_port={$xlatesport}
+dst_port={$xlatedport}
+protocol={$protocol}
+username={$username}
+userdata1="plugin rule 9251"
+userdata2={$whut}
+userdata3={$what}
+userdata4={$whet}
+userdata5={$whit}
+userdata6={$VPN}
+userdata7={$xlatesport}
+userdata8={$xlatedport}
+userdata9={$src}
+userdata10={$dst}
+
+[9252 - Checkpoint VPN-1 Edge dropped packet]
+event_type=event
+precheck="Checkpoint VPN-1 Edge dropped packet"
+regexp="^AV\s+\-\sAlert\s+\-\s\"(?P<date>\d+)\"\s\-\->\sRID\:\s\"(?P<rule_id>\d+)\"\;\s+RL\:\s+\"(?P<rule_level>\d+)\"\;\s+RG\:\s+\"(?P<rule_group>[^"]*)\"\;\s+RC\:\s+"(?P<rule_comment>[^"]*)\";\sUSER:\s+\"(?P<username>[^"]+)\";\sSRCIP:\s\"[^"]*\"\;\sHOSTNAME:\s+\"\((?P<hostname>[^)]+)\)\s[0-9\.]+->[^"]*\";\sLOCATION\:\s\"[^"]+\"\;\s+EVENT\:\s+\"\[INIT\]time=\d+-\d+-\d+\s\d+:\d+:\d+\|product=[\s\w\d\&\S]+\|action=(?P<action>[\w]+)\|orig=(?P<fw>[\d.]+)\|src=(?P<src>[\d.]+)(\|s_port=(?P<src_port>[\d]+)?)?\|dst=(?P<dst>[\d.]+)\|proto=(?P<protocol>[\w\d]+)(?P<VPN>(?P<whit>\|xlatesrc=(?P<xlatesrc>[\d\.]+))?(?P<whet>\|xlatesport=(?P<xlatesport>[\d\.]+))?(?P<what>\|xlatedst=(?P<xlatedst>[\d\.]+))?(?P<whut>\|xlatedport=(?P<xlatedport>[\d\.]+))?)?\[END\]\"\;"
+date={normalize_date($date)}
+plugin_id={translate($rule_id)}
+plugin_sid={$rule_id}
+device={$fw}
+src_ip={$src}
+dst_ip={$dst}
+src_port={$xlatesport}
+dst_port={$xlatedport}
+protocol={$protocol}
+username={$username}
+userdata1="plugin rule 9252"
+userdata2={$whut}
+userdata3={$what}
+userdata4={$whet}
+userdata5={$whit}
+userdata6={$VPN}
+userdata7={$xlatesport}
+userdata8={$xlatedport}
+userdata9={$src}
+userdata10={$dst}
+
+[9253 - Checkpoint VPN-1 Edge encrypt VPN packet]
+event_type=event
+precheck="Checkpoint VPN-1 Edge encrypt VPN packet"
+regexp="^AV\s+\-\sAlert\s+\-\s\"(?P<date>\d+)\"\s\-\->\sRID\:\s\"(?P<rule_id>\d+)\"\;\s+RL\:\s+\"(?P<rule_level>\d+)\"\;\s+RG\:\s+\"(?P<rule_group>[^"]*)\"\;\s+RC\:\s+"(?P<rule_comment>[^"]*)\";\sUSER:\s+\"(?P<username>[^"]+)\";\sSRCIP:\s\"[^"]*\"\;\sHOSTNAME:\s+\"\((?P<hostname>[^)]+)\)\s[0-9\.]+->[^"]*\";\sLOCATION\:\s\"[^"]+\"\;\s+EVENT\:\s+\"\[INIT\]time=\d+-\d+-\d+\s\d+:\d+:\d+\|product=[\s\w\d\&\S]+\|action=(?P<action>[\w]+)\|orig=(?P<fw>[\d.]+)\|src=(?P<src>[\d.]+)(\|s_port=(?P<src_port>[\d]+)?)?\|dst=(?P<dst>[\d.]+)\|proto=(?P<protocol>[\w\d]+)(?P<VPN>(?P<whit>\|xlatesrc=(?P<xlatesrc>[\d\.]+))?(?P<whet>\|xlatesport=(?P<xlatesport>[\d\.]+))?(?P<what>\|xlatedst=(?P<xlatedst>[\d\.]+))?(?P<whut>\|xlatedport=(?P<xlatedport>[\d\.]+))?)?\[END\]\"\;"
+date={normalize_date($date)}
+plugin_id={translate($rule_id)}
+plugin_sid={$rule_id}
+device={$fw}
+src_ip={$src}
+dst_ip={$dst}
+src_port={$xlatesport}
+dst_port={$xlatedport}
+protocol={$protocol}
+username={$username}
+userdata1="plugin rule 9253"
+userdata2={$whut}
+userdata3={$what}
+userdata4={$whet}
+userdata5={$whit}
+userdata6={$VPN}
+userdata7={$xlatesport}
+userdata8={$xlatedport}
+userdata9={$src}
+userdata10={$dst}
+
+[9254 - Checkpoint VPN-1 Edge decrypt VPN packet]
+event_type=event
+precheck="Checkpoint VPN-1 Edge decrypt VPN packet"
+regexp="^AV\s+\-\sAlert\s+\-\s\"(?P<date>\d+)\"\s\-\->\sRID\:\s\"(?P<rule_id>\d+)\"\;\s+RL\:\s+\"(?P<rule_level>\d+)\"\;\s+RG\:\s+\"(?P<rule_group>[^"]*)\"\;\s+RC\:\s+"(?P<rule_comment>[^"]*)\";\sUSER:\s+\"(?P<username>[^"]+)\";\sSRCIP:\s\"[^"]*\"\;\sHOSTNAME:\s+\"\((?P<hostname>[^)]+)\)\s[0-9\.]+->[^"]*\";\sLOCATION\:\s\"[^"]+\"\;\s+EVENT\:\s+\"\[INIT\]time=\d+-\d+-\d+\s\d+:\d+:\d+\|product=[\s\w\d\&\S]+\|action=(?P<action>[\w]+)\|orig=(?P<fw>[\d.]+)\|src=(?P<src>[\d.]+)(\|s_port=(?P<src_port>[\d]+)?)?\|dst=(?P<dst>[\d.]+)\|proto=(?P<protocol>[\w\d]+)(?P<VPN>(?P<whit>\|xlatesrc=(?P<xlatesrc>[\d\.]+))?(?P<whet>\|xlatesport=(?P<xlatesport>[\d\.]+))?(?P<what>\|xlatedst=(?P<xlatedst>[\d\.]+))?(?P<whut>\|xlatedport=(?P<xlatedport>[\d\.]+))?)?\[END\]\"\;"
+date={normalize_date($date)}
+plugin_id={translate($rule_id)}
+plugin_sid={$rule_id}
+device={$fw}
+src_ip={$src}
+dst_ip={$dst}
+src_port={$xlatesport}
+dst_port={$xlatedport}
+protocol={$protocol}
+username={$username}
+userdata1="plugin rule 9254"
+userdata2={$whut}
+userdata3={$what}
+userdata4={$whet}
+userdata5={$whit}
+userdata6={$VPN}
+userdata7={$xlatesport}
+userdata8={$xlatedport}
+userdata9={$src}
+userdata10={$dst}
+
+[9255 - Checkpoint VPN-1 Edge monitor VPN packet]
+event_type=event
+precheck="Checkpoint VPN-1 Edge monitor VPN packet"
+regexp="^AV\s+\-\sAlert\s+\-\s\"(?P<date>\d+)\"\s\-\->\sRID\:\s\"(?P<rule_id>\d+)\"\;\s+RL\:\s+\"(?P<rule_level>\d+)\"\;\s+RG\:\s+\"(?P<rule_group>[^"]*)\"\;\s+RC\:\s+"(?P<rule_comment>[^"]*)\";\sUSER:\s+\"(?P<administrator>[^"]+)\";\sSRCIP:\s\"[^"]*\"\;\sHOSTNAME:\s+\"\((?P<hostname>[^)]+)\)\s[0-9\.]+->[^"]*\";\sLOCATION\:\s\"[^"]+\"\;\s+EVENT\:\s+\"\[INIT\]time=\d+-\d+-\d+\s\d+:\d+:\d+\|product=[\s\w\d\&\S]+\|action=(?P<action>[\w]+)\|orig=(?P<fw>[\d.]+)\|src=(?P<src>[\d.]+)\|s_port=(?P<src_port>[\d]+)\|dst=(?P<dst>[\d.]+)\|proto=(?P<protocol>[\w\d]+)(?P<VPN>(?P<whit>\|xlatesrc=(?P<xlatesrc>[\d\.]+))?(?P<whet>\|xlatesport=(?P<xlatesport>[\d\.]+))?(?P<what>\|xlatedst=(?P<xlatedst>[\d\.]+))?(?P<whut>\|xlatedport=(?P<xlatedport>[\d\.]+))?)?\[END\]\"\;"
+date={normalize_date($date)}
+plugin_id={translate($rule_id)}
+plugin_sid={$rule_id}
+device={$machine}
+src_ip={resolve($src_ip)}
+dst_ip={$dst_ip}
+src_port={$src_port}
+protocol={$protocol}
+username={$administrator}
+userdata1="plugin rule 9255"
+userdata2={$log}
+
+###################################
+### CHECKPOINT VPN-1 & FIREWALL ###
+###################################
+
+[9300 - Checkpoint VPN-1 & FireWall encrypt VPN packet]
+event_type=event
+precheck="Checkpoint VPN-1 and FireWall encrypt VPN packet"
+regexp="^AV\s+\-\sAlert\s+\-\s\"(?P<date>\d+)\"\s\-\->\sRID\:\s\"(?P<rule_id>\d+)\"\;\s+RL\:\s+\"(?P<rule_level>\d+)\"\;\s+RG\:\s+\"(?P<rule_group>[^"]*)\"\;\s+RC\:\s+"(?P<rule_comment>[^"]*)\";\sUSER:\s+\"(?P<administrator>[^"]+)\";\sSRCIP:\s\"[^"]*\"\;\sHOSTNAME:\s+\"\((?P<hostname>[^)]+)\)\s[0-9\.]+->[^"]*\";\sLOCATION\:\s\"[^"]+\"\;\s+EVENT\:\s+\"\[INIT\]time=\d+-\d+-\d+\s\d+:\d+:\d+\|product=[\s\w\d\&\S]+\|action=(?P<action>[\w]+)\|orig=(?P<fw>[\d.]+)\|src=(?P<src>[\d.]+)(\|s_port=(?P<src_port>[\d]+)?)?\|dst=(?P<dst>[\d.]+)\|proto=(?P<protocol>[\w\d]+)(?P<VPN>(?P<whit>\|xlatesrc=(?P<xlatesrc>[\d\.]+))?(?P<whet>\|xlatesport=(?P<xlatesport>[\d\.]+))?(?P<what>\|xlatedst=(?P<xlatedst>[\d\.]+))?(?P<whut>\|xlatedport=(?P<xlatedport>[\d\.]+))?)?\[END\]\"\;"
+date={normalize_date($date)}
+plugin_id={translate($rule_id)}
+plugin_sid={$rule_id}
+device={$fw}
+src_ip={$src}
+dst_ip={$dst}
+src_port={$xlatesport}
+dst_port={$xlatedport}
+protocol={$protocol}
+username={$administrator}
+userdata1="plugin rule 9300"
+userdata2={$log}
+userdata3={$hostname}
+
+[9301 - Checkpoint VPN-1 & FireWall decrypt VPN packet]
+event_type=event
+precheck="Checkpoint VPN-1 and FireWall decrypt VPN packet"
+regexp="^AV\s+\-\sAlert\s+\-\s\"(?P<date>\d+)\"\s\-\->\sRID\:\s\"(?P<rule_id>\d+)\"\;\s+RL\:\s+\"(?P<rule_level>\d+)\"\;\s+RG\:\s+\"(?P<rule_group>[^"]*)\"\;\s+RC\:\s+"(?P<rule_comment>[^"]*)\";\sUSER:\s+\"(?P<administrator>[^"]+)\";\sSRCIP:\s\"[^"]*\"\;\sHOSTNAME:\s+\"\((?P<hostname>[^)]+)\)\s[0-9\.]+->[^"]*\";\sLOCATION\:\s\"[^"]+\"\;\s+EVENT\:\s+\"\[INIT\]time=\d+-\d+-\d+\s\d+:\d+:\d+\|product=[\s\w\d\&\S]+\|action=(?P<action>[\w]+)\|orig=(?P<fw>[\d.]+)\|src=(?P<src>[\d.]+)\|(s_port=(?P<src_port>[\d]+)?)?\|dst=(?P<dst>[\d.]+)\|proto=(?P<protocol>[\w\d]+)(?P<VPN>(?P<whit>\|xlatesrc=(?P<xlatesrc>[\d\.]+))?(?P<whet>\|xlatesport=(?P<xlatesport>[\d\.]+))?(?P<what>\|xlatedst=(?P<xlatedst>[\d\.]+))?(?P<whut>\|xlatedport=(?P<xlatedport>[\d\.]+))?)?\[END\]\"\;"
+date={normalize_date($date)}
+plugin_id={translate($rule_id)}
+plugin_sid={$rule_id}
+device={$fw}
+src_ip={$src}
+dst_ip={$dst}
+src_port={$xlatesport}
+dst_port={$xlatedport}
+protocol={$protocol}
+username={$administrator}
+userdata1="plugin rule 9301"
+userdata2={$log}
+
+[9302 - Checkpoint VPN-1 & FireWall accept packet]
+event_type=event
+precheck="Checkpoint VPN-1 and FireWall accepted packet"
+regexp="^AV\s+\-\sAlert\s+\-\s\"(?P<date>\d+)\"\s\-\->\sRID\:\s\"(?P<rule_id>\d+)\"\;\s+RL\:\s+\"(?P<rule_level>\d+)\"\;\s+RG\:\s+\"(?P<rule_group>[^"]*)\"\;\s+RC\:\s+"(?P<rule_comment>[^"]*)\";\sUSER:\s+\"(?P<administrator>[^"]+)\";\sSRCIP:\s\"[^"]*\"\;\sHOSTNAME:\s+\"\((?P<hostname>[^)]+)\)\s[0-9\.]+->[^"]*\";\sLOCATION\:\s\"[^"]+\"\;\s+EVENT\:\s+\"\[INIT\]time=\d+-\d+-\d+\s\d+:\d+:\d+\|product=[\s\w\d\&\S]+\|action=(?P<action>[\w]+)\|orig=(?P<fw>[\d.]+)\|src=(?P<src>[\d.]+)(\|s_port=(?P<src_port>[\d]+)?)?\|dst=(?P<dst>[\d.]+)\|proto=(?P<protocol>[\w\d]+)(?P<VPN>(?P<whit>\|xlatesrc=(?P<xlatesrc>[\d\.]+))?(?P<whet>\|xlatesport=(?P<xlatesport>[\d\.]+))?(?P<what>\|xlatedst=(?P<xlatedst>[\d\.]+))?(?P<whut>\|xlatedport=(?P<xlatedport>[\d\.]+))?)?\[END\]\"\;"
+date={normalize_date($date)}
+plugin_id={translate($rule_id)}
+plugin_sid={$rule_id}
+device={$fw}
+src_ip={$src}
+dst_ip={$dst}
+src_port={$xlatesport}
+dst_port={$xlatedport}
+protocol={$protocol}
+username={$administrator}
+userdata1="plugin rule 9302"
+userdata2={$whut}
+userdata3={$what}
+userdata4={$whet}
+userdata5={$whit}
+userdata6={$VPN}
+userdata7={$xlatesport}
+userdata8={$xlatedport}
+userdata9={$src}
+userdata10={$dst}
+
+[9303 - Checkpoint VPN-1 & FireWall dropped packet]
+event_type=event
+precheck="Checkpoint VPN-1 and FireWall dropped packet"
+date={normalize_date($date)}
+regexp="^AV\s+\-\sAlert\s+\-\s\"(?P<date>\d+)\"\s\-\->\sRID\:\s\"(?P<rule_id>\d+)\"\;\s+RL\:\s+\"(?P<rule_level>\d+)\"\;\s+RG\:\s+\"(?P<rule_group>[^"]*)\"\;\s+RC\:\s+"(?P<rule_comment>[^"]*)\";\sUSER:\s+\"(?P<administrator>[^"]+)\";\sSRCIP:\s\"[^"]*\"\;\sHOSTNAME:\s+\"\((?P<hostname>[^)]+)\)\s[0-9\.]+->[^"]*\";\sLOCATION\:\s\"[^"]+\"\;\s+EVENT\:\s+\"\[INIT\]time=\d+-\d+-\d+\s\d+:\d+:\d+\|product=[\s\w\d\&\S]+\|action=(?P<action>[a-z]+)\|orig=(?P<fw>[0-9.]+)\|src=(?P<src>[0-9.]+)(\|s_port=(?P<src_port>[\d]+)?)?\|dst=(?P<dst>[0-9.]+)\|proto=(?P<protocol>[\d\w]+)(\|xlatesrc=(?P<xlatesrc>[\d\.]+)?\|xlatesport=(?P<xlatesport>[\d\.]+)\|xlatedst=(?P<xlatedst>[\d\.]+)?\|xlatedport=(?P<xlatedport>[\d\.]+)?)?\[END\]\"\;"
+plugin_id={translate($rule_id)}
+plugin_sid={$rule_id}
+device={$fw}
+src_ip={$src}
+dst_ip={$dst}
+src_port={$xlatesport}
+dst_port={$xlatedport}
+protocol={$protocol}
+username={$administrator}
+userdata1="plugin rule 9303"
+userdata2={$log}
+userdata3={$hostname}
+userdata4={$rule_comment}
+userdata5={$rule_group}
+
+######################
+### CHECKPOINT ALL ###
+######################
+
+[9990 - custom_checkpoint_if_all_fails]
+event_type=event
+regexp="^AV\s-\sAlert\s-\s\"(?P<date>\d+)\"\s-->\sRID:\s\"(?P<rule_id>\d+)\";\sRL:\s\"(?P<rule_level>\d+)\";\sRG:\s\"(?P<rule_group>\S+)\";\sRC:\s\"(?P<rule_comment>[^\"]*)\";\sUSER:\s\"(?P<username>\S+)\";\sSRCIP:\s\"(?P<srcip>[^\"]*)\";\sHOSTNAME:\s\"\(?(?P<hostname>[^\"\)]*).*\[END\]\";"
+date={normalize_date($date)}
+device={resolv($hostname)}
+src_ip={$srcip}
+dst_ip={resolv($hostname)}
+plugin_sid={$rule_id}
+plugin_id={translate($rule_id)}
+userdata1="plugin rule 9999"
+userdata2=if
+userdate3=all
+userdata4=fails
+
