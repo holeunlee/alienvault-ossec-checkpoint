@@ -1,0 +1,98 @@
+<!-- ##################################### --
+written by holeun.lee@gmail.com
+ossec checkpoint logs received from fw1-loggrabber.
+#############################################
+accepted decoders.order within ossec decoders.xml and local_decoders.xml:
+location, srcuser, dstuser, user, srcip, dstip, srcport, dstport, protocol, id, url, action, status, extra_data
+########################################## -->
+
+<!-- ######################### -->
+<!-- ##### firewall logs ##### -->
+<!-- ######################### -->
+
+<decoder name="custom_checkpoint_firewall">
+ <prematch>^VPN-1\s&\sFireWall-1</prematch>
+</decoder>
+
+<decoder name="custom_checkpoint_smartdefense">
+ <prematch>^SmartDefense</prematch>
+</decoder>
+
+<decoder name="custom_checkpoint_edge">
+ <prematch>^VPN-1\sEdge</prematch>
+</decoder>
+
+<decoder name="custom_checkpoint_firewall_log">
+ <parent>custom_checkpoint_firewall</parent>
+<regex offset="after_parent">(\w+)\|(\d+.\d+.\d+.\d+)\|(\d+.\d+.\d+.\d+)\|(\d*)\|(\d+.\d+.\d+.\d+)\|(\w+)\|(\.*)</reg
+<order>action, extra_data, srcip, srcport, dstip, protocol, extra_data, extra_data, extra_data, extra_data, extra_dat
+</decoder>
+
+<decoder name="custom_checkpoint_smartdefense_log">
+ <parent>custom_checkpoint_smartdefense</parent>
+<regex offset="after_parent">(\w+)\|(\d+.\d+.\d+.\d+)\|(\d+.\d+.\d+.\d+)\|(\d+)\|(\d+.\d+.\d+.\d+)\|(\w+)\|\|\|\|\|(\
+<order>action, extra_data, srcip, srcport, dstip, protocol, extra_data, extra_data, extra_data, extra_data, extra_dat
+</decoder>
+
+<decoder name="custom_checkpoint_edge_log">
+ <parent>custom_checkpoint_edge</parent>
+<regex offset="after_parent">(\w+)\|(\d+.\d+.\d+.\d+)\|(\d+.\d+.\d+.\d+)\|(\d+)\|(\d+.\d+.\d+.\d+)\|(\w+)\|(\.*\|\d*\
+<order>action, extra_data, srcip, srcport, dstip, protocol, extra_data, extra_data</order>
+</decoder>
+
+<!-- ###################### -->
+<!-- ##### audit logs ##### -->
+<!-- ###################### -->
+<decoder name="custom_checkpoint_smartdashboard">
+ <prematch>^time=\d+-\d+-\d+\s\d+:\d+:\d+\|product=SmartDashboard</prematch>
+</decoder>
+
+<decoder name="custom_checkpoint_smartviewtracker">
+<prematch>^time=\d+-\d+-\d+\s\d+:\d+:\d+\|product=SmartView\sTracker\|</prematch>
+</decoder>
+
+<decoder name="custom_checkpoint_smartviewmonitor">
+<prematch>^time=\d+-\d+-\d+\s\d+:\d+:\d+\|product=SmartView\sMonitor\|</prematch>
+</decoder>
+
+<decoder name="custom_checkpoint_securitymanagementserver">
+<prematch>^time=\d+-\d+-\d+\s\d+:\d+:\d+\|product=Security\sManagement\sServer</prematch>
+</decoder>
+
+<decoder name="custom_checkpoint_systemmonitor">
+<prematch>^time=\d+-\d+-\d+\s\d+:\d+:\d+\|product=System\sMonitor\|</prematch>
+</decoder>
+
+<decoder name="custom_checkpoint_smartdashboard_log">
+<parent>custom_checkpoint_smartdashboard</parent>
+<regex offset="after_parent">orig=(\.*)\|Operation=(\.*)\|Administrator=(\.*)\|Machine=(\.*)\|(\.*)</regex>
+<order>srcip, action, srcuser, extra_data, extra_data</order>
+</decoder>
+
+<decoder name="custom_checkpoint_smartviewtracker_log">
+<parent>custom_checkpoint_smartviewtracker</parent>
+<regex offset="after_parent">orig=(\.*)\|Operation=(\.*)\|Administrator=(\.*)\|Machine=(\.*)\|(\.*)</regex>
+<order>srcip, action, srcuser, extra_data, extra_data</order>
+</decoder>
+
+<decoder name="custom_checkpoint_smartviewmonitor_log">
+<parent>custom_checkpoint_smartviewmonitor</parent>
+<regex offset="after_parent">orig=(\.*)\|Operation=(\.*)\|Administrator=(\.*)\|Machine=(\.*)\|(\.*)</regex>
+<order>srcip, action, srcuser, extra_data, extra_data</order>
+</decoder>
+
+<decoder name="custom_checkpoint_securitymanagementserver_log">
+<parent>custom_checkpoint_securitymanagementserver</parent>
+<regex offset="after_parent">orig=(\.*)\|Operation=(\.*)\|Administrator=(\.*)\|Machine=(\.*)\|(\.*)</regex>
+<order>srcip, action, srcuser, extra_data, extra_data</order>
+</decoder>
+
+<decoder name="custom_checkpoint_systemmonitor">
+<parent>custom_checkpoint_systemmonitor</parent>
+<regex offset="after_parent">orig=(\.*)\|Operation=(\.*)\|Administrator=(\.*)\|Machine=(\.*)\|(\.*)</regex>
+<order>srcip, action, srcuser, extra_data, extra_data</order>
+</decoder>
+<!-- ############################################ --
+END OF CUSTOM EDIT BY holeun.lee@gmail.com
+-- ############################################## -->
+
