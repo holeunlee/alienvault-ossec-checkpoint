@@ -1,0 +1,219 @@
+<!-- @(#) $Id: ./etc/rules/local_rules.xml, 2011/09/08 dcid Exp $
+
+<!-- BEGIN of "edited by holeun.lee@gmail.com" -->
+<!-- Checkpoint Firewall/Edge/SmartDefense Logs from fw1-firewall-%Y-%M-%D.log -->
+<!-- ########### FIREWALL LOG STARTS ############# -->
+
+<!-- Happenings on product: VPN-1 & Firewall -->
+
+<group name="custom_checkpoint_firewall">
+  <rule id="733733" level="0">
+    <decoded_as>custom_checkpoint_firewall</decoded_as>
+    <description>Custom Checkpoint All</description>
+  </rule>
+  <rule id="733734" level="0">
+    <if_sid>733733</if_sid>
+    <match>accept</match>
+    <description>Checkpoint VPN-1 & FireWall accepted packet</description>
+  </rule>
+  <rule id="733735" level="0">
+    <if_sid>733733</if_sid>
+    <match>drop</match>
+    <description>Checkpoint VPN-1 & FireWall dropped packet</description>
+  </rule>
+  <rule id="733736" level="0">
+    <if_sid>733733</if_sid>
+    <match>encrypt</match>
+    <description>Checkpoint VPN-1 & FireWall encrypt VPN packet</description>
+  </rule>
+  <rule id="733737" level="0">
+    <if_sid>733733</if_sid>
+    <match>decrypt</match>
+    <description>Checkpoint VPN-1 & FireWall decrypt VPN packet</description>
+  </rule>
+</group>
+
+<!-- Happenings on product: VPN-1 & Edge -->
+<group name="custom_checkpoint_edge">
+  <rule id="733743" level="0">
+    <decoded_as>custom_checkpoint_edge</decoded_as>
+    <description>Custom Checkpoint All</description>
+  </rule>
+  <rule id="733744" level="0">
+    <if_sid>733743</if_sid>
+    <match>accept</match>
+    <description>Checkpoint VPN-1 Edge accepted packet</description>
+  </rule>
+  <rule id="733745" level="0">
+    <if_sid>733743</if_sid>
+    <match>drop</match>
+    <description>Checkpoint VPN-1 Edge dropped packet</description>
+  </rule>
+  <rule id="733746" level="0">
+    <if_sid>733743</if_sid>
+    <match>encrypt</match>
+    <description>Checkpoint VPN-1 Edge encrypt VPN packet</description>
+  </rule>
+  <rule id="733747" level="0">
+    <if_sid>733743</if_sid>
+    <match>decrypt</match>
+    <description>Checkpoint VPN-1 Edge decrypt VPN packet</description>
+  </rule>
+  <rule id="733748" level="0">
+    <if_sid>733743</if_sid>
+    <match>monitor</match>
+    <description>Checkpoint VPN-1 Edge monitor VPN packet</description>
+  </rule>
+</group>
+
+<!-- Happenings on product: SmartDefence Monitor -->
+
+<group name="custom_checkpoint_edge">
+  <rule id="733753" level="0">
+    <decoded_as>custom_checkpoint_edge</decoded_as>
+    <description>Custom Checkpoint All</description>
+  </rule>
+  <rule id="733754" level="0">
+    <if_sid>733753</if_sid>
+    <match>monitor</match>
+    <description>Checkpoint SmartDefense monitor packet</description>
+  </rule>
+</group>
+
+<!-- ########### AUDITS LOGGGGGG STARTS! ############## -->
+
+<!-- Happenings on product: Checkpoint SmartDashboard -->
+
+<group name="custom_checkpoint_smartdashboard">
+  <rule id="733763" level="0">
+    <decoded_as>custom_checkpoint_smartdashboard</decoded_as>
+    <description>Custom Checkpoint All</description>
+  </rule>
+  <rule id="733764" level="0">
+    <if_sid>733763</if_sid>
+    <match>Operation=Create Object</match>
+    <description>Checkpoint SmartDashboard: Object Created</description>
+  </rule>
+  <rule id="733765" level="0">
+    <if_sid>733763</if_sid>
+    <match>Operation=Delete Object</match>
+    <description>Checkpoint SmartDashboard: Object Deleted</description>
+  </rule>
+  <rule id="733766" level="0">
+    <if_sid>733763</if_sid>
+    <match>Operation=Modify Object</match>
+    <description>Checkpoint SmartDashboard: Object Modified</description>
+  </rule>
+  <rule id="733767" level="0">
+    <if_sid>733763</if_sid>
+    <match>Operation=Install Policy</match>
+    <description>Checkpoint SmartDashboard: Policy Installed</description>
+  </rule>
+  <rule id="733768" level="0">
+    <if_sid>733763</if_sid>
+    <match>Operation=Log In</match>
+    <description>Checkpoint SmartDashboard: User Logged In</description>
+  </rule>
+  <rule id="733769" level="0">
+    <if_sid>733763</if_sid>
+    <match>Operation=Log Out</match>
+    <description>Checkpoint SmartDashboard: User Logged Out</description>
+  </rule>
+  <rule id="733770" level="0">
+    <if_sid>733763</if_sid>
+    <match>Operation=File Retrieved</match>
+    <description>Checkpoint SmartDashboard: File Retrieved</description>
+  </rule>
+</group>
+
+<!-- SmartView Tracker -->
+
+<group name="custom_checkpoint_smartviewtracker">
+  <rule id="733773" level="0">
+    <decoded_as>custom_checkpoint_smartviewtracker</decoded_as>
+    <description>Custom Checkpoint All</description>
+  </rule>
+  <rule id="733774" level="0">
+    <if_sid>733773</if_sid>
+    <match>Operation=Log in</match>
+    <description>Checkpoint Smart View Tracker: User Logged In</description>
+  </rule>
+  <rule id="733775" level="0">
+    <if_sid>733773</if_sid>
+    <match>Operation=Log Out</match>
+    <description>Checkpoint Smart View Tracker: User Logged Out</description>
+  </rule>
+  <rule id="733776" level="0">
+    <if_sid>733773</if_sid>
+    <match>Operation=File Retrieved</match>
+    <description>Checkpoint Smart View Tracker: File Retrieved</description>
+  </rule>
+</group>
+
+<!-- SmartView Monitor -->
+
+<group name="custom_checkpoint_smartviewmonitor">
+  <rule id="733783" level="0">
+    <decoded_as>custom_checkpoint_smartviewmonitor</decoded_as>
+    <description>Custom Checkpoint All</description>
+  </rule>
+  <rule id="733784" level="0">
+    <if_sid>733783</if_sid>
+    <match>Operation=Log in</match>
+    <description>Checkpoint Smart View Monitor: User Logged In</description>
+  </rule>
+  <rule id="733785" level="0">
+    <if_sid>733783</if_sid>
+    <match>Operation=Log Out</match>
+    <description>Checkpoint Smart View Monitor: User Logged Out</description>
+  </rule>
+  <rule id="733786" level="0">
+    <if_sid>733783</if_sid>
+    <match>Operation=File Retrieved</match>
+    <description>Checkpoint Smart View Monitor: File Retrieved</description>
+  </rule>
+</group>
+<!-- Security Management Server -->
+
+<group name="custom_checkpoint_securitymanagementserver">
+  <rule id="733793" level="0">
+    <decoded_as>custom_checkpoint_securitymanagementserver</decoded_as>
+    <description>Custom Checkpoint All</description>
+  </rule>
+  <rule id="733894" level="0">
+    <if_sid>733793</if_sid>
+    <match>Operation=Detect Active Server</match>
+    <description>Checkpoint System Monitor: Detected Multiple Active Servers</description>
+  </rule>
+  <rule id="733895" level="0">
+    <if_sid>733793</if_sid>
+    <match>Operation=Synchronize Peer</match>
+    <description>Checkpoint System Monitor: Synchronize Peers</description>
+  </rule>
+</group>
+
+<!-- System Monitor -->
+
+<group name="custom_checkpoint_systemmonitor">
+  <rule id="733803" level="0">
+    <decoded_as>custom_checkpoint_securitymanagementserver</decoded_as>
+    <description>Custom Checkpoint All</description>
+  </rule>
+  <rule id="733804" level="0">
+    <if_sid>733803</if_sid>
+    <match>Operation=Create Object</match>
+    <description>Checkpoint System Monitor: Object Created</description>
+  </rule>
+  <rule id="733805" level="0">
+    <if_sid>733803</if_sid>
+    <match>Operation=Delete Object</match>
+    <description>Checkpoint System Monitor: Object Deleted</description>
+  </rule>
+  <rule id="733806" level="0">
+    <if_sid>733803</if_sid>
+    <match>Operation=Modify Object</match>
+    <description>Checkpoint System Monitor: Object Modified</description>
+  </rule>
+</group>
+
+<!-- END of "edited by holeun.lee@gmail.com" -->
