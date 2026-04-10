@@ -1,9 +1,5 @@
-This was a project to integrate all information from checkpoint firewalls into alienvault.
-I have used loggrabber-fw1 on another big server and sent this to another analysis server through (ELK) filebeat.
-To combine information, and sent alerts the whole OSSEC ruling and alerting had to be rewritten.
-The Alienvault database had to be reverse engineered, to output text in human readable format instead of HEX.
+Checkpoint Firewall → AlienVault Integration
+Integrates Checkpoint firewall logs into AlienVault SIEM by collecting logs via loggrabber-fw1 on a dedicated server, forwarding them through the ELK stack using Filebeat, and correlating events on a separate analysis server.
+To enable full visibility, the OSSEC ruleset and alerting logic were rebuilt from scratch to handle Checkpoint-specific event types. The AlienVault database was reverse-engineered to decode HEX-encoded fields into human-readable output.
 
-Note: The newer firmware versions from checkpoint do allow native API calls to retrieve information, which make things much easier.
-
-
-
+Note: Newer Checkpoint firmware versions support native API access, making log retrieval significantly simpler than the approach documented here.
